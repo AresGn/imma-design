@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IMMA - Plateforme de Recherche d'Appartement</title>
+  <link rel="stylesheet" href="./styles/main.css">
+  <link rel="stylesheet" href="./components/Header.css">
+  <link rel="stylesheet" href="./components/Hero.css">
+  <link rel="stylesheet" href="./components/WhyImma.css">
+  <link rel="stylesheet" href="./components/PropertySelection.css">
+  <link rel="stylesheet" href="./components/Blog.css">
+  <link rel="stylesheet" href="./components/Footer.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <!-- HEADER IMMA - Design épuré -->
+  <header class="header">
+    <div class="container">
+      <!-- Menu hamburger à gauche -->
+      <button class="hamburger-menu" id="hamburger-toggle">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <!-- Logo centré -->
+      <div class="header-brand">
+        <img src="../logo.png" alt="IMMA" class="logo">
+      </div>
+
+      <!-- Boutons d'action à droite -->
+      <div class="header-actions">
+        <a href="#trouver-appartement" class="btn-find-apartment">Trouver un appartement</a>
+        <a href="#espace-client" class="btn-client-space">Espace client</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Menu de navigation mobile/desktop -->
+  <nav class="nav-menu" id="nav-menu">
+    <div class="nav-menu-header">
+      <img src="../logo.png" alt="IMMA" class="logo">
+      <button class="nav-menu-close" id="nav-menu-close">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="nav-menu-items">
+      <a href="#comment-ca-marche" class="nav-menu-item">Comment ça marche</a>
+      <a href="#fonctionnalites" class="nav-menu-item">Fonctionnalités</a>
+      <a href="#tarifs" class="nav-menu-item">Tarifs</a>
+      <a href="#contact" class="nav-menu-item">Contact</a>
+      <a href="#a-propos" class="nav-menu-item">À propos</a>
+      <a href="#blog" class="nav-menu-item">Blog</a>
+      <a href="#aide" class="nav-menu-item">Aide</a>
+    </div>
+  </nav>
+
+  <!-- Overlay pour le menu -->
+  <div class="nav-overlay" id="nav-overlay"></div>
+
+  <!-- HERO SECTION IMMA - Focus Location -->
+  <section class="hero">
+    <div class="hero-bg">
+      <img src="../hero.png" alt="Appartement moderne IMMA" class="hero-bg-img">
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <h1 class="hero-title">
+        Trouvez votre appartement
+        <span class="text-gradient">sans effort</span>
+      </h1>
+      <p class="hero-description">
+        IMMA automatise votre recherche d'appartement grâce à l'intelligence artificielle.
+        Renseignez vos critères, notre IA s'occupe du reste : recherche, contact et organisation des visites.
+      </p>
+
+      <!-- Barre de recherche simplifiée pour la location -->
+      <div class="search-bar">
+        <div class="search-header">
+          <h2 class="search-title">Commencez votre recherche</h2>
+          <p class="search-subtitle">Trouvez l'appartement parfait en quelques clics</p>
+        </div>
+
+        <form class="search-form" id="apartment-search">
+          <div class="search-field">
+            <label for="property-type">
+              <i class="fas fa-home icon"></i>
+              Type de bien
+            </label>
+            <select name="property-type" id="property-type" required>
+              <option value="">Sélectionner</option>
+              <option value="studio">Studio</option>
+              <option value="t1">T1</option>
+              <option value="t2">T2</option>
+              <option value="t3">T3</option>
+              <option value="t4">T4</option>
+              <option value="t5-plus">T5+</option>
+            </select>
+          </div>
+
+          <div class="search-field">
+            <label for="location">
+              <i class="fas fa-map-marker-alt icon"></i>
+              Localisation
+            </label>
+            <input type="text" name="location" id="location" placeholder="Ville, quartier..." required>
+          </div>
+
+          <div class="search-field">
+            <label for="budget-min">
+              <i class="fas fa-euro-sign icon"></i>
+              Budget min
+            </label>
+            <input type="number" name="budget-min" id="budget-min" placeholder="500€" min="0">
+          </div>
+
+          <div class="search-field">
+            <label for="budget-max">
+              <i class="fas fa-euro-sign icon"></i>
+              Budget max
+            </label>
+            <input type="number" name="budget-max" id="budget-max" placeholder="1500€" min="0">
+          </div>
+
+          <button type="submit" class="search-btn">
+            <i class="fas fa-search"></i>
+            <span>Rechercher</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION POURQUOI IMMA -->
+  <section class="why-imma">
+    <div class="container">
+      <!-- En-tête de section -->
+      <div class="section-header">
+        <h2 class="section-title">Les défis de la recherche d'appartement</h2>
+        <p class="section-subtitle">
+          Chercher un appartement peut être frustrant et chronophage.
+          IMMA résout ces problèmes grâce à l'intelligence artificielle.
+        </p>
+      </div>
+
+      <!-- Liste des problèmes - Deux colonnes -->
+      <div class="problems-container">
+        <div class="problems-grid">
+          <!-- Colonne 1 -->
+          <div class="problems-column">
+            <div class="problem-item">
+              <h3>
+                <div class="problem-icon">
+                  <i class="fas fa-clock"></i>
+                </div>
+                Perte de temps considérable
+              </h3>
+              <p>
+                La recherche d'appartement traditionnelle vous fait naviguer entre multiples sites
+                (Le Bon Coin, PAP, SeLoger...) avec des recherches répétitives qui vous font perdre
+                des heures précieuses chaque jour. Cette approche fragmentée est inefficace et épuisante.
+              </p>
+            </div>
+
+            <div class="problem-item">
+              <h3>
+                <div class="problem-icon">
+                  <i class="fas fa-phone"></i>
+                </div>
+                Contact manuel fastidieux
+              </h3>
+              <p>
+                Vous devez contacter manuellement chaque agence ou propriétaire, souvent sans réponse
+                ou avec des délais importants. Cette approche individuelle limite vos chances de succès
+                et ralentit considérablement votre recherche.
+              </p>
+            </div>
+          </div>
+
+          <!-- Colonne 2 -->
+          <div class="problems-column">
+            <div class="problem-item">
+              <h3>
+                <div class="problem-icon">
+                  <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                Annonces de mauvaise qualité
+              </h3>
+              <p>
+                Les plateformes regorgent d'annonces obsolètes, incomplètes ou en doublon qui créent
+                de la frustration et des déplacements inutiles. Il est difficile de distinguer les
+                vraies opportunités des annonces fantômes.
+              </p>
+            </div>
+
+            <div class="problem-item">
+              <h3>
+                <div class="problem-icon">
+                  <i class="fas fa-calendar-alt"></i>
+                </div>
+                Coordination complexe des visites
+              </h3>
+              <p>
+                Organiser efficacement les visites selon vos disponibilités et celles des propriétaires
+                relève du casse-tête. Entre les créneaux incompatibles et les annulations de dernière
+                minute, planifier devient un défi majeur.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section solution -->
+      <div class="solution-section">
+        <div class="solution-header">
+          <h2>Notre solution intelligente</h2>
+          <p>IMMA révolutionne la recherche d'appartement grâce à l'automatisation</p>
+        </div>
+
+        <div class="solution-steps">
+          <div class="step">
+            <div class="step-image">
+              <div class="step-number">1</div>
+            </div>
+            <div class="step-content">
+              <h3>Définissez vos critères</h3>
+              <p>Renseignez votre ville, budget, type de logement et préférences en quelques clics. Notre interface intuitive vous guide pas à pas.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-image">
+              <div class="step-number">2</div>
+            </div>
+            <div class="step-content">
+              <h3>L'IA recherche pour vous</h3>
+              <p>Notre intelligence artificielle scanne automatiquement toutes les principales plateformes immobilières en temps réel pour vous.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-image">
+              <div class="step-number">3</div>
+            </div>
+            <div class="step-content">
+              <h3>Contact automatique</h3>
+              <p>Messages personnalisés envoyés automatiquement aux agences et propriétaires selon vos critères et votre profil.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-image">
+              <div class="step-number">4</div>
+            </div>
+            <div class="step-content">
+              <h3>Visites organisées</h3>
+              <p>Planification intelligente des visites selon votre calendrier et vos disponibilités. Plus de stress, tout est automatisé.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+          <h3>Prêt à simplifier votre recherche ?</h3>
+          <p>Rejoignez des milliers d'utilisateurs qui ont trouvé leur appartement sans effort</p>
+          <div class="cta-buttons">
+            <a href="#commencer" class="btn-cta-primary">Commencer ma recherche</a>
+            <a href="#demo" class="btn-cta-secondary">Voir la démo</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION NOTRE SÉLECTION DE BIENS IMMOBILIERS -->
+  <section class="property-selection">
+    <div class="container">
+      <div class="property-header">
+        <h2>Notre sélection de biens immobiliers pour vous</h2>
+        <p>Découvrez une sélection d'appartements soigneusement choisis selon vos critères et les avis des anciens locataires</p>
+      </div>
+
+      <div class="properties-grid">
+        <!-- Propriété 1 -->
+        <div class="property-card">
+          <div class="property-image" style="background-image: url('../appartement-paris-11-sejour-G11.jpg')">
+            <div class="property-rating">
+              <span class="rating-stars">★★★★★</span>
+              <span class="rating-value">4.8</span>
+            </div>
+            <div class="property-overlay">
+              <div class="property-price">1 250€/mois</div>
+              <div class="property-type">Appartement T2</div>
+              <div class="property-location">
+                <i class="fas fa-map-marker-alt"></i>
+                Paris 11ème, République
+              </div>
+            </div>
+          </div>
+          </div>
+          <div class="property-content">
+            <div class="property-features">
+              <div class="feature">
+                <i class="fas fa-bed"></i>
+                <span>2 pièces</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-ruler-combined"></i>
+                <span>45 m²</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-subway"></i>
+                <span>Métro 2 min</span>
+              </div>
+            </div>
+            <p class="property-description">
+              Charmant T2 rénové dans le quartier République. Proche de tous commerces et transports.
+            </p>
+            <button class="contact-btn">Contacter le propriétaire</button>
+          </div>
+        </div>
+
+        <!-- Propriété 2 -->
+        <div class="property-card">
+          <div class="property-image" style="background-image: url('../7-p3.jpg')">
+            <div class="property-rating">
+              <span class="rating-stars">★★★★☆</span>
+              <span class="rating-value">4.2</span>
+            </div>
+            <div class="property-overlay">
+              <div class="property-price">950€/mois</div>
+              <div class="property-type">Studio</div>
+              <div class="property-location">
+                <i class="fas fa-map-marker-alt"></i>
+                Paris 18ème, Montmartre
+              </div>
+            </div>
+          </div>
+          <div class="property-content">
+            <div class="property-features">
+              <div class="feature">
+                <i class="fas fa-bed"></i>
+                <span>1 pièce</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-ruler-combined"></i>
+                <span>28 m²</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-subway"></i>
+                <span>Métro 5 min</span>
+              </div>
+            </div>
+            <p class="property-description">
+              Studio lumineux avec vue sur Montmartre. Idéal pour étudiant ou jeune actif.
+            </p>
+            <button class="contact-btn">Contacter le propriétaire</button>
+          </div>
+        </div>
+
+        <!-- Propriété 3 -->
+        <div class="property-card">
+          <div class="property-image" style="background-image: url('../Louvre-Only-9920039014142.jpg')">
+            <div class="property-rating">
+              <span class="rating-stars">★★★★★</span>
+              <span class="rating-value">4.9</span>
+            </div>
+            <div class="property-overlay">
+              <div class="property-price">1 800€/mois</div>
+              <div class="property-type">Appartement T3</div>
+              <div class="property-location">
+                <i class="fas fa-map-marker-alt"></i>
+                Paris 1er, Louvre
+              </div>
+            </div>
+          </div>
+          <div class="property-content">
+            <div class="property-features">
+              <div class="feature">
+                <i class="fas fa-bed"></i>
+                <span>3 pièces</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-ruler-combined"></i>
+                <span>65 m²</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-subway"></i>
+                <span>Métro 1 min</span>
+              </div>
+            </div>
+            <p class="property-description">
+              Appartement d'exception face au Louvre. Prestations haut de gamme et emplacement unique.
+            </p>
+            <button class="contact-btn">Contacter le propriétaire</button>
+          </div>
+        </div>
+
+        <!-- Propriété 4 -->
+        <div class="property-card">
+          <div class="property-image" style="background-image: url('../3-p3.jpg')">
+            <div class="property-rating">
+              <span class="rating-stars">★★★★☆</span>
+              <span class="rating-value">4.3</span>
+            </div>
+            <div class="property-overlay">
+              <div class="property-price">1 100€/mois</div>
+              <div class="property-type">Appartement T2</div>
+              <div class="property-location">
+                <i class="fas fa-map-marker-alt"></i>
+                Paris 13ème, Bibliothèque
+              </div>
+            </div>
+          </div>
+          <div class="property-content">
+            <div class="property-features">
+              <div class="feature">
+                <i class="fas fa-bed"></i>
+                <span>2 pièces</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-ruler-combined"></i>
+                <span>42 m²</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-subway"></i>
+                <span>Métro 3 min</span>
+              </div>
+            </div>
+            <p class="property-description">
+              Appartement moderne dans un quartier dynamique. Proche de la BNF et des transports.
+            </p>
+            <button class="contact-btn">Contacter le propriétaire</button>
+          </div>
+        </div>
+
+        <!-- Propriété 5 -->
+        <div class="property-card">
+          <div class="property-image" style="background-image: url('../1vn3ec25nv69yj79bfg7i98jdrxmij7k5hnnbaslw.jpg')">
+            <div class="property-rating">
+              <span class="rating-stars">★★★★★</span>
+              <span class="rating-value">4.7</span>
+            </div>
+            <div class="property-overlay">
+              <div class="property-price">1 350€/mois</div>
+              <div class="property-type">Appartement T2</div>
+              <div class="property-location">
+                <i class="fas fa-map-marker-alt"></i>
+                Paris 9ème, Opéra
+              </div>
+            </div>
+          </div>
+          <div class="property-content">
+            <div class="property-features">
+              <div class="feature">
+                <i class="fas fa-bed"></i>
+                <span>2 pièces</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-ruler-combined"></i>
+                <span>48 m²</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-subway"></i>
+                <span>Métro 2 min</span>
+              </div>
+            </div>
+            <p class="property-description">
+              Élégant appartement haussmannien rénové. Quartier prestigieux avec tous commerces.
+            </p>
+            <button class="contact-btn">Contacter le propriétaire</button>
+          </div>
+        </div>
+
+        <!-- Propriété 6 -->
+        <div class="property-card">
+          <div class="property-image" style="background-image: url('../unnamed.jpg')">
+            <div class="property-rating">
+              <span class="rating-stars">★★★★☆</span>
+              <span class="rating-value">4.1</span>
+            </div>
+            <div class="property-overlay">
+              <div class="property-price">850€/mois</div>
+              <div class="property-type">Studio</div>
+              <div class="property-location">
+                <i class="fas fa-map-marker-alt"></i>
+                Paris 20ème, Belleville
+              </div>
+            </div>
+          </div>
+          <div class="property-content">
+            <div class="property-features">
+              <div class="feature">
+                <i class="fas fa-bed"></i>
+                <span>1 pièce</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-ruler-combined"></i>
+                <span>25 m²</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-subway"></i>
+                <span>Métro 4 min</span>
+              </div>
+            </div>
+            <p class="property-description">
+              Studio cosy dans un quartier artistique et vivant. Parfait pour jeune professionnel.
+            </p>
+            <button class="contact-btn">Contacter le propriétaire</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION BLOG -->
+  <section class="blog-section">
+    <div class="container">
+      <div class="blog-header">
+        <h2>Conseils et actualités immobilières</h2>
+        <p>Découvrez nos derniers articles pour vous aider dans votre recherche d'appartement et rester informé des tendances du marché</p>
+      </div>
+
+      <div class="blog-grid">
+        <!-- Article 1 -->
+        <article class="blog-card">
+          <div class="blog-image" style="background-image: url('../15443-location-meublee-mensuelle-en-courte-duree-dun-studio-confortable-refait-a-neuf-a-montorgueil-paris-2eme.jpg')">
+            <div class="blog-category">Conseils</div>
+          </div>
+          <div class="blog-content">
+            <div class="blog-meta">
+              <div class="blog-date">
+                <i class="fas fa-calendar-alt"></i>
+                <span>15 Déc 2024</span>
+              </div>
+              <div class="blog-author">
+                <i class="fas fa-user"></i>
+                <span>Équipe IMMA</span>
+              </div>
+            </div>
+            <h3 class="blog-title">
+              <a href="#article-1">10 conseils pour réussir sa recherche d'appartement à Paris</a>
+            </h3>
+            <p class="blog-excerpt">
+              Découvrez les stratégies essentielles pour optimiser votre recherche d'appartement dans la capitale.
+              De la préparation du dossier aux visites, nos experts partagent leurs meilleurs conseils.
+            </p>
+            <a href="#article-1" class="blog-read-more">
+              Lire la suite
+              <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </article>
+
+        <!-- Article 2 -->
+        <article class="blog-card">
+          <div class="blog-image" style="background-image: url('../1vn3ec25nv69yj79bfg7i98jdrxmij7k5hnnbaslw.jpg')">
+            <div class="blog-category">Marché</div>
+          </div>
+          <div class="blog-content">
+            <div class="blog-meta">
+              <div class="blog-date">
+                <i class="fas fa-calendar-alt"></i>
+                <span>12 Déc 2024</span>
+              </div>
+              <div class="blog-author">
+                <i class="fas fa-user"></i>
+                <span>Analyse IMMA</span>
+              </div>
+            </div>
+            <h3 class="blog-title">
+              <a href="#article-2">Évolution des prix de location en 2024 : ce qu'il faut savoir</a>
+            </h3>
+            <p class="blog-excerpt">
+              Analyse complète des tendances du marché locatif français. Comprendre les fluctuations
+              de prix pour mieux négocier et anticiper vos recherches futures.
+            </p>
+            <a href="#article-2" class="blog-read-more">
+              Lire la suite
+              <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </article>
+
+        <!-- Article 3 -->
+        <article class="blog-card">
+          <div class="blog-image" style="background-image: url('../unnamed.jpg')">
+            <div class="blog-category">Technologie</div>
+          </div>
+          <div class="blog-content">
+            <div class="blog-meta">
+              <div class="blog-date">
+                <i class="fas fa-calendar-alt"></i>
+                <span>10 Déc 2024</span>
+              </div>
+              <div class="blog-author">
+                <i class="fas fa-user"></i>
+                <span>Tech IMMA</span>
+              </div>
+            </div>
+            <h3 class="blog-title">
+              <a href="#article-3">Comment l'IA révolutionne la recherche immobilière</a>
+            </h3>
+            <p class="blog-excerpt">
+              Plongez dans les coulisses de notre technologie. Découvrez comment l'intelligence artificielle
+              transforme la façon de chercher et trouver un logement.
+            </p>
+            <a href="#article-3" class="blog-read-more">
+              Lire la suite
+              <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </article>
+      </div>
+
+      <div class="blog-cta">
+        <a href="#blog" class="btn-blog-all">
+          <span>Voir tous les articles</span>
+          <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER IMMA -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <!-- À propos d'IMMA -->
+        <div class="footer-about">
+          <img src="../logo.png" alt="IMMA" class="footer-logo">
+          <p class="footer-description">
+            IMMA automatise votre recherche d'appartement grâce à l'intelligence artificielle.
+            Trouvez votre logement idéal sans effort, notre IA s'occupe de tout.
+          </p>
+          <div class="social-links">
+            <a href="#" class="social-link" aria-label="Facebook">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="social-link" aria-label="Twitter">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="social-link" aria-label="LinkedIn">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="#" class="social-link" aria-label="Instagram">
+              <i class="fab fa-instagram"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Produit -->
+        <div class="footer-column">
+          <h4>Produit</h4>
+          <ul class="footer-links">
+            <li><a href="#fonctionnalites">Fonctionnalités</a></li>
+            <li><a href="#comment-ca-marche">Comment ça marche</a></li>
+            <li><a href="#tarifs">Tarifs</a></li>
+            <li><a href="#demo">Démo</a></li>
+            <li><a href="#api">API</a></li>
+          </ul>
+        </div>
+
+        <!-- Support -->
+        <div class="footer-column">
+          <h4>Support</h4>
+          <ul class="footer-links">
+            <li><a href="#aide">Centre d'aide</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#guides">Guides</a></li>
+            <li><a href="#status">Statut du service</a></li>
+          </ul>
+        </div>
+
+        <!-- Entreprise -->
+        <div class="footer-column">
+          <h4>Entreprise</h4>
+          <ul class="footer-links">
+            <li><a href="#a-propos">À propos</a></li>
+            <li><a href="#blog">Blog</a></li>
+            <li><a href="#carriere">Carrière</a></li>
+            <li><a href="#presse">Presse</a></li>
+            <li><a href="#partenaires">Partenaires</a></li>
+          </ul>
+
+          <!-- Newsletter -->
+          <div style="margin-top: var(--space-lg);">
+            <h4>Newsletter</h4>
+            <p style="color: rgba(255, 255, 255, 0.8); font-size: 0.875rem; margin-bottom: var(--space-sm);">
+              Restez informé des nouveautés
+            </p>
+            <form class="newsletter-form">
+              <input type="email" class="newsletter-input" placeholder="Votre email" required>
+              <button type="submit" class="newsletter-btn">S'abonner</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Séparateur -->
+      <div class="footer-divider"></div>
+
+      <!-- Bas du footer -->
+      <div class="footer-bottom">
+        <div class="footer-copyright">
+          © 2024 IMMA. Tous droits réservés.
+        </div>
+        <div class="footer-legal">
+          <a href="#mentions-legales">Mentions légales</a>
+          <a href="#politique-confidentialite">Politique de confidentialité</a>
+          <a href="#conditions-utilisation">Conditions d'utilisation</a>
+          <a href="#cookies">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // IMMA - Menu Hamburger Simple
+    document.addEventListener('DOMContentLoaded', function() {
+      const hamburgerToggle = document.getElementById('hamburger-toggle');
+      const navMenu = document.getElementById('nav-menu');
+      const navMenuClose = document.getElementById('nav-menu-close');
+      const navOverlay = document.getElementById('nav-overlay');
+
+      // Fonction pour ouvrir le menu
+      function openMenu() {
+        if (navMenu) navMenu.classList.add('open');
+        if (navOverlay) navOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      // Fonction pour fermer le menu
+      function closeMenu() {
+        if (navMenu) navMenu.classList.remove('open');
+        if (navOverlay) navOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      // Événements
+      if (hamburgerToggle) {
+        hamburgerToggle.addEventListener('click', openMenu);
+      }
+
+      if (navMenuClose) {
+        navMenuClose.addEventListener('click', closeMenu);
+      }
+
+      if (navOverlay) {
+        navOverlay.addEventListener('click', closeMenu);
+      }
+
+      // Fermer avec Escape
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && navMenu && navMenu.classList.contains('open')) {
+          closeMenu();
+        }
+      });
+
+      // Fermer lors du clic sur un lien
+      const navMenuItems = document.querySelectorAll('.nav-menu-item');
+      navMenuItems.forEach(function(item) {
+        item.addEventListener('click', closeMenu);
+      });
+
+      // Initialiser les autres fonctionnalités
+      initSearchForm();
+      initNewsletter();
+      initScrollAnimations();
+
+      console.log('🏠 IMMA app initialized successfully');
+    });
+
+    // Gestion du formulaire de recherche
+    function initSearchForm() {
+      const searchForm = document.getElementById('apartment-search');
+      if (searchForm) {
+        searchForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+
+          const formData = new FormData(searchForm);
+          const searchData = {
+            propertyType: formData.get('property-type'),
+            location: formData.get('location'),
+            budgetMin: formData.get('budget-min'),
+            budgetMax: formData.get('budget-max')
+          };
+
+          console.log('🔍 Recherche lancée:', searchData);
+          alert('Recherche lancée ! (Fonctionnalité à implémenter)');
+        });
+      }
+    }
+
+    // Gestion de la newsletter
+    function initNewsletter() {
+      const newsletterForm = document.querySelector('.newsletter-form');
+      if (newsletterForm) {
+        newsletterForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+
+          const email = newsletterForm.querySelector('.newsletter-input').value;
+          console.log('📧 Inscription newsletter:', email);
+
+          alert('Merci pour votre inscription ! (Fonctionnalité à implémenter)');
+          newsletterForm.reset();
+        });
+      }
+    }
+
+    // Animations au scroll
+    function initScrollAnimations() {
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, observerOptions);
+
+      // Observer les éléments animés
+      const animatedElements = document.querySelectorAll('.problem-item, .step, .property-card, .blog-card');
+      animatedElements.forEach(function(el) {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+      });
+    }
+  </script>
+</body>
+</html>

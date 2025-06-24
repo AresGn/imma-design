@@ -1,0 +1,371 @@
+/* Section "Pourquoi IMMA ?" */
+.why-imma {
+  padding: var(--space-2xl) 0;
+  background: var(--gray-50);
+}
+
+.why-imma .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+/* En-tête de section */
+.section-header {
+  text-align: center;
+  margin-bottom: var(--space-2xl);
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--black);
+  margin-bottom: var(--space-md);
+  line-height: 1.2;
+}
+
+.section-subtitle {
+  font-size: 1.25rem;
+  color: var(--gray-600);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Liste des problèmes - Deux colonnes */
+.problems-container {
+  max-width: 1000px;
+  margin: 0 auto var(--space-2xl);
+}
+
+.problems-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2xl);
+  align-items: start;
+}
+
+.problems-column {
+  opacity: 0;
+  transform: translateX(-30px);
+  animation: columnSlideIn 0.8s ease-out forwards;
+}
+
+.problems-column:nth-child(2) {
+  transform: translateX(30px);
+  animation-delay: 0.3s;
+}
+
+.problem-item {
+  margin-bottom: var(--space-xl);
+  padding: var(--space-lg);
+  background: var(--white);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  border-left: 4px solid var(--primary-blue);
+  transition: all 0.3s ease;
+}
+
+.problem-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-left-color: var(--accent-green);
+}
+
+.problem-item h3 {
+  font-size: 1.375rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--primary-blue);
+  margin-bottom: var(--space-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.problem-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.problem-item p {
+  color: var(--gray-600);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+@keyframes columnSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(var(--slide-direction, -30px));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Responsive pour les problèmes */
+@media (max-width: 768px) {
+  .problems-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+
+  .problems-column {
+    transform: translateY(30px);
+    animation: problemFadeIn 0.8s ease-out forwards;
+  }
+
+  .problems-column:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+}
+
+@keyframes problemFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Section solution */
+.solution-section {
+  background: var(--white);
+  padding: var(--space-2xl) 0;
+  border-radius: var(--border-radius-xl);
+  margin-top: var(--space-xl);
+}
+
+.solution-header {
+  text-align: center;
+  margin-bottom: var(--space-2xl);
+}
+
+.solution-header h2 {
+  font-size: 2rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--black);
+  margin-bottom: var(--space-sm);
+}
+
+.solution-header p {
+  font-size: 1.125rem;
+  color: var(--gray-600);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Étapes de la solution avec images */
+.solution-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-2xl);
+  margin-top: var(--space-2xl);
+}
+
+.step {
+  background: var(--white);
+  border-radius: var(--border-radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  transition: all 0.4s ease;
+  opacity: 0;
+  transform: translateY(50px);
+  animation: stepSlideUp 0.8s ease-out forwards;
+}
+
+.step:nth-child(1) { animation-delay: 0.2s; }
+.step:nth-child(2) { animation-delay: 0.4s; }
+.step:nth-child(3) { animation-delay: 0.6s; }
+.step:nth-child(4) { animation-delay: 0.8s; }
+
+.step:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-xl);
+}
+
+.step-image {
+  height: 200px;
+  background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.step-image::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+}
+
+.step-number {
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  color: var(--white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-bold);
+  position: relative;
+  z-index: 2;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.step-content {
+  padding: var(--space-xl);
+  text-align: center;
+}
+
+.step h3 {
+  font-size: 1.375rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--black);
+  margin-bottom: var(--space-md);
+}
+
+.step p {
+  color: var(--gray-600);
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+
+@keyframes stepSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* CTA Section */
+.cta-section {
+  text-align: center;
+  margin-top: var(--space-2xl);
+  padding: var(--space-xl);
+  background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark));
+  border-radius: var(--border-radius-xl);
+  color: var(--white);
+}
+
+.cta-section h3 {
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-sm);
+}
+
+.cta-section p {
+  font-size: 1.125rem;
+  margin-bottom: var(--space-lg);
+  opacity: 0.9;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-cta-primary {
+  background: var(--white);
+  color: var(--primary-blue);
+  padding: var(--space-md) var(--space-xl);
+  border-radius: var(--border-radius-lg);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-md);
+}
+
+.btn-cta-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-cta-secondary {
+  background: transparent;
+  color: var(--white);
+  padding: var(--space-md) var(--space-xl);
+  border: 2px solid var(--white);
+  border-radius: var(--border-radius-lg);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-cta-secondary:hover {
+  background: var(--white);
+  color: var(--primary-blue);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .problems-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+  
+  .solution-steps {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+  
+  .step:not(:last-child)::after {
+    display: none;
+  }
+  
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .btn-cta-primary,
+  .btn-cta-secondary {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .why-imma {
+    padding: var(--space-xl) 0;
+  }
+  
+  .section-title {
+    font-size: 1.75rem;
+  }
+  
+  .problem-card,
+  .cta-section {
+    padding: var(--space-lg);
+  }
+}
