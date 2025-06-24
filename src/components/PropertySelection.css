@@ -32,13 +32,12 @@
   line-height: 1.6;
 }
 
-/* Grille des propriétés - Disposition verticale uniforme */
+/* Grille des propriétés - Disposition horizontale comme le blog */
 .properties-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: var(--space-xl);
   align-items: stretch;
-  justify-content: center;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -55,35 +54,45 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  min-height: 520px;
-  max-width: 400px;
-  margin: 0 auto;
 }
 
 .property-card:nth-child(1) { animation-delay: 0.1s; }
 .property-card:nth-child(2) { animation-delay: 0.2s; }
 .property-card:nth-child(3) { animation-delay: 0.3s; }
-.property-card:nth-child(4) { animation-delay: 0.4s; }
-.property-card:nth-child(5) { animation-delay: 0.5s; }
-.property-card:nth-child(6) { animation-delay: 0.6s; }
+.property-card:nth-child(4) {
+  animation-delay: 0.4s;
+  display: none; /* Masqué par défaut */
+}
+.property-card:nth-child(5) {
+  animation-delay: 0.5s;
+  display: none; /* Masqué par défaut */
+}
+.property-card:nth-child(6) {
+  animation-delay: 0.6s;
+  display: none; /* Masqué par défaut */
+}
+
+/* Classe pour afficher les propriétés cachées */
+.property-card.show-more {
+  display: flex !important;
+}
 
 .property-card:hover {
   transform: translateY(-8px);
   box-shadow: var(--shadow-xl);
 }
 
-/* Image de la propriété - Taille standardisée */
+/* Image de la propriété - Taille standardisée et forcée */
 .property-image {
   position: relative;
-  height: 280px;
+  height: 240px;
+  width: 100%;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background-color: var(--gray-100);
+  flex-shrink: 0;
 }
 
 /* Fallback pour images manquantes */
@@ -183,6 +192,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  min-height: 280px;
 }
 
 .property-features {
@@ -244,14 +254,14 @@
 }
 
 /* Responsive Design */
-@media (max-width: 1024px) {
+@media (max-width: 900px) {
   .properties-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-lg);
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .properties-grid {
     grid-template-columns: 1fr;
     gap: var(--space-lg);
@@ -262,7 +272,7 @@
   }
 
   .property-image {
-    height: 250px;
+    height: 200px;
   }
 
   .property-overlay {
@@ -273,8 +283,8 @@
     font-size: 1.25rem;
   }
 
-  .property-card {
-    min-height: auto;
+  .property-content {
+    padding: var(--space-md);
   }
 }
 
@@ -329,4 +339,64 @@
 
 .contact-btn:hover::before {
   left: 100%;
+}
+
+/* Section Voir plus */
+.properties-cta {
+  text-align: center;
+  margin-top: var(--space-2xl);
+  padding-top: var(--space-xl);
+  border-top: 1px solid var(--gray-200);
+}
+
+.btn-see-more {
+  background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark));
+  color: var(--white);
+  padding: var(--space-md) var(--space-2xl);
+  border-radius: var(--border-radius-lg);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-md);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-see-more:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-xl);
+}
+
+.btn-see-more::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.btn-see-more:hover::before {
+  left: 100%;
+}
+
+.btn-see-more i {
+  transition: transform 0.3s ease;
+}
+
+.btn-see-more:hover i {
+  transform: translateX(3px);
 }

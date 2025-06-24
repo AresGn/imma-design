@@ -10,8 +10,12 @@
   <link rel="stylesheet" href="./components/WhyImma.css">
   <link rel="stylesheet" href="./components/PropertySelection.css">
   <link rel="stylesheet" href="./components/Blog.css">
+  <link rel="stylesheet" href="./components/SearchResults.css">
   <link rel="stylesheet" href="./components/Footer.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Leaflet CSS pour la carte -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
   <!-- HEADER IMMA - Design épuré -->
@@ -126,6 +130,31 @@
             <span>Rechercher</span>
           </button>
         </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION RÉSULTATS DE RECHERCHE -->
+  <section class="search-results" id="search-results">
+    <div class="container">
+      <div class="results-header">
+        <h2>Résultats de votre recherche</h2>
+        <p class="results-count" id="results-count">Nous avons trouvé plusieurs appartements correspondant à vos critères</p>
+      </div>
+
+      <!-- Carte interactive -->
+      <div class="map-container">
+        <div id="search-map">
+          <div class="map-loading">
+            <div class="loading-spinner"></div>
+            <p>Chargement de la carte...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grille des résultats -->
+      <div class="results-grid" id="results-grid">
+        <!-- Les résultats seront générés dynamiquement -->
       </div>
     </div>
   </section>
@@ -295,7 +324,6 @@
                 Paris 11ème, République
               </div>
             </div>
-          </div>
           </div>
           <div class="property-content">
             <div class="property-features">
@@ -509,6 +537,14 @@
           </div>
         </div>
       </div>
+
+      <!-- Bouton Voir plus -->
+      <div class="properties-cta">
+        <button class="btn-see-more" id="see-more-properties">
+          <span>Voir plus d'appartements</span>
+          <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
     </div>
   </section>
 
@@ -716,6 +752,9 @@
   </footer>
 
   <!-- Scripts -->
+  <!-- Leaflet JS pour la carte -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
   <script>
     // IMMA - Menu Hamburger Simple
     document.addEventListener('DOMContentLoaded', function() {
@@ -768,13 +807,71 @@
       initSearchForm();
       initNewsletter();
       initScrollAnimations();
+      initSeeMoreProperties();
 
       console.log('🏠 IMMA app initialized successfully');
     });
 
+    // Localisations parisiennes populaires pour étudiants
+    const parisLocations = [
+      'Quartier Latin (5ème)', 'Saint-Germain-des-Prés (6ème)', 'Marais (3ème/4ème)',
+      'Belleville (20ème)', 'Ménilmontant (20ème)', 'République (3ème/10ème/11ème)',
+      'Bastille (11ème/12ème)', 'Nation (11ème/12ème)', 'Père Lachaise (20ème)',
+      'Oberkampf (11ème)', 'Canal Saint-Martin (10ème)', 'Goncourt (11ème)',
+      'Parmentier (11ème)', 'Voltaire (11ème)', 'Charonne (11ème)',
+      'Buttes-Chaumont (19ème)', 'Jourdain (20ème)', 'Pyrénées (20ème)',
+      'Gambetta (20ème)', 'Télégraphe (20ème)', 'Pelleport (20ème)',
+      'Saint-Fargeau (20ème)', 'Porte de Bagnolet (20ème)', 'Alexandre Dumas (11ème)',
+      'Avron (20ème)', 'Buzenval (20ème)', 'Maraîchers (20ème)',
+      'Picpus (12ème)', 'Bel-Air (12ème)', 'Daumesnil (12ème)',
+      'Michel Bizot (12ème)', 'Porte Dorée (12ème)', 'Liberté (12ème)',
+      'Dugommier (12ème)', 'Montgallet (12ème)', 'Reuilly (12ème)',
+      'Faidherbe-Chaligny (11ème)', 'Ledru-Rollin (12ème)', 'Gare de Lyon (12ème)',
+      'Quai de la Rapée (12ème)', 'Austerlitz (13ème)', 'Place d\'Italie (13ème)',
+      'Tolbiac (13ème)', 'Maison Blanche (13ème)', 'Porte d\'Italie (13ème)',
+      'Porte de Choisy (13ème)', 'Porte d\'Ivry (13ème)', 'Pierre et Marie Curie (13ème)',
+      'Olympiades (13ème)', 'Pont de Tolbiac (13ème)', 'Bibliothèque F. Mitterrand (13ème)',
+      'Quai de la Gare (13ème)', 'Bercy (12ème)', 'Cour Saint-Émilion (12ème)',
+      'Châtelet (1er/4ème)', 'Hôtel de Ville (4ème)', 'Saint-Paul (4ème)',
+      'Pont Neuf (1er)', 'Louvre (1er)', 'Palais Royal (1er)',
+      'Tuileries (1er)', 'Concorde (1er/8ème)', 'Champs-Élysées (8ème)',
+      'Franklin D. Roosevelt (8ème)', 'George V (8ème)', 'Charles de Gaulle-Étoile (8ème/16ème/17ème)',
+      'Argentine (17ème)', 'Porte Maillot (17ème)', 'Les Sablons (16ème)',
+      'Pont de Neuilly (17ème)', 'Esplanade de La Défense (92)', 'La Défense (92)',
+      'Châtelet-Les Halles (1er)', 'Étienne Marcel (2ème)', 'Sentier (2ème)',
+      'Réaumur-Sébastopol (2ème/3ème)', 'Arts et Métiers (3ème)', 'Temple (3ème)',
+      'Filles du Calvaire (3ème)', 'Saint-Sébastien-Froissart (3ème)', 'Chemin Vert (11ème)',
+      'Bréguet-Sabin (11ème)', 'Sully-Morland (4ème)', 'Pont Marie (4ème)',
+      'Rambuteau (3ème/4ème)', 'Châtelet (1er/4ème)', 'Pont Neuf (1er)',
+      'Saint-Michel (5ème/6ème)', 'Odéon (6ème)', 'Saint-Germain-des-Prés (6ème)',
+      'Saint-Sulpice (6ème)', 'Sèvres-Babylone (6ème/7ème)', 'Vaneau (7ème)',
+      'Duroc (7ème/15ème)', 'Montparnasse (6ème/14ème/15ème)', 'Edgar Quinet (14ème)',
+      'Raspail (6ème/14ème)', 'Denfert-Rochereau (6ème/14ème)', 'Mouton-Duvernet (14ème)',
+      'Alésia (14ème)', 'Porte d\'Orléans (14ème)', 'Châtillon-Montrouge (92)',
+      'Malakoff-Plateau de Vanves (92)', 'Malakoff-Rue Étienne Dolet (92)', 'Plaisance (14ème)',
+      'Pernety (14ème)', 'Gaîté (14ème)', 'Montparnasse-Bienvenüe (6ème/14ème/15ème)',
+      'Falguière (15ème)', 'Pasteur (15ème)', 'Volontaires (15ème)',
+      'Vaugirard (15ème)', 'Convention (15ème)', 'Porte de Versailles (15ème)',
+      'Corentin Celton (92)', 'Mairie d\'Issy (92)', 'Pont du Garigliano (15ème)',
+      'Balard (15ème)', 'Lourmel (15ème)', 'Boucicaut (15ème)',
+      'Félix Faure (15ème)', 'Commerce (15ème)', 'La Motte-Picquet-Grenelle (15ème)',
+      'École Militaire (7ème)', 'La Tour-Maubourg (7ème)', 'Invalides (7ème)',
+      'Pont de l\'Alma (7ème/8ème)', 'Alma-Marceau (8ème/16ème)', 'Iéna (16ème)',
+      'Trocadéro (16ème)', 'Passy (16ème)', 'Bir-Hakeim (15ème/16ème)',
+      'Dupleix (15ème)', 'Grenelle (15ème)', 'Cambronne (15ème)',
+      'Sèvres-Lecourbe (15ème)', 'Pasteur (15ème)', 'Montparnasse-Bienvenüe (6ème/14ème/15ème)'
+    ];
+
     // Gestion du formulaire de recherche
     function initSearchForm() {
       const searchForm = document.getElementById('apartment-search');
+      const locationInput = document.getElementById('location');
+
+      // Autocomplétion pour les localisations
+      if (locationInput) {
+        setupLocationAutocomplete(locationInput);
+      }
+
       if (searchForm) {
         searchForm.addEventListener('submit', function(e) {
           e.preventDefault();
@@ -788,9 +885,59 @@
           };
 
           console.log('🔍 Recherche lancée:', searchData);
-          alert('Recherche lancée ! (Fonctionnalité à implémenter)');
+
+          // Vérifier que les champs sont remplis
+          if (searchData.location && searchData.propertyType) {
+            performSearch(searchData);
+          } else {
+            alert('Veuillez remplir au moins la localisation et le type de bien');
+          }
         });
       }
+    }
+
+    // Configuration de l'autocomplétion
+    function setupLocationAutocomplete(input) {
+      const datalist = document.createElement('datalist');
+      datalist.id = 'location-suggestions';
+
+      parisLocations.forEach(location => {
+        const option = document.createElement('option');
+        option.value = location;
+        datalist.appendChild(option);
+      });
+
+      input.setAttribute('list', 'location-suggestions');
+      input.parentNode.appendChild(datalist);
+    }
+
+    // Effectuer la recherche et afficher les résultats
+    function performSearch(searchData) {
+      const resultsSection = document.getElementById('search-results');
+      const resultsGrid = document.getElementById('results-grid');
+      const resultsCount = document.getElementById('results-count');
+
+      // Afficher la section des résultats
+      resultsSection.classList.add('show');
+
+      // Scroll vers les résultats
+      setTimeout(() => {
+        resultsSection.scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+
+      // Simuler des résultats
+      const mockResults = generateMockResults(searchData);
+
+      // Mettre à jour le compteur
+      resultsCount.textContent = `${mockResults.length} appartements trouvés à ${searchData.location}`;
+
+      // Afficher les résultats
+      displayResults(mockResults);
+
+      // Initialiser la carte
+      setTimeout(() => {
+        initMap(mockResults, searchData.location);
+      }, 500);
     }
 
     // Gestion de la newsletter
@@ -833,6 +980,177 @@
         el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(el);
       });
+    }
+
+    // Gestion du bouton "Voir plus" pour les propriétés
+    function initSeeMoreProperties() {
+      const seeMoreBtn = document.getElementById('see-more-properties');
+      if (seeMoreBtn) {
+        seeMoreBtn.addEventListener('click', function() {
+          // Animation du bouton
+          seeMoreBtn.style.transform = 'scale(0.95)';
+          setTimeout(function() {
+            seeMoreBtn.style.transform = '';
+          }, 150);
+
+          // Révéler les propriétés cachées
+          const hiddenProperties = document.querySelectorAll('.property-card:nth-child(n+4)');
+          hiddenProperties.forEach(function(property, index) {
+            setTimeout(function() {
+              property.classList.add('show-more');
+              property.style.animation = 'propertyFadeIn 0.8s ease-out forwards';
+            }, index * 200);
+          });
+
+          // Masquer le bouton après utilisation
+          setTimeout(function() {
+            seeMoreBtn.style.opacity = '0';
+            seeMoreBtn.style.transform = 'translateY(20px)';
+            setTimeout(function() {
+              seeMoreBtn.style.display = 'none';
+            }, 300);
+          }, 600);
+
+          console.log('🏠 Propriétés supplémentaires révélées');
+        });
+      }
+    }
+
+    // Générer des résultats simulés
+    function generateMockResults(searchData) {
+      const images = [
+        '../appartement-paris-11-sejour-G11.jpg',
+        '../7-p3.jpg',
+        '../3-p3.jpg',
+        '../Louvre-Only-9920039014142.jpg',
+        '../1vn3ec25nv69yj79bfg7i98jdrxmij7k5hnnbaslw.jpg',
+        '../unnamed.jpg'
+      ];
+
+      const types = ['Studio', 'T1', 'T2', 'T3'];
+      const ratings = [4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9];
+
+      const results = [];
+      const numResults = Math.floor(Math.random() * 4) + 3; // 3-6 résultats
+
+      for (let i = 0; i < numResults; i++) {
+        const type = searchData.propertyType || types[Math.floor(Math.random() * types.length)];
+        const minBudget = parseInt(searchData.budgetMin) || 800;
+        const maxBudget = parseInt(searchData.budgetMax) || 1500;
+        const price = Math.floor(Math.random() * (maxBudget - minBudget)) + minBudget;
+
+        results.push({
+          id: i + 1,
+          image: images[i % images.length],
+          type: type,
+          price: price,
+          location: searchData.location,
+          rating: ratings[Math.floor(Math.random() * ratings.length)],
+          surface: Math.floor(Math.random() * 40) + 25,
+          rooms: type === 'Studio' ? 1 : parseInt(type.replace('T', '')),
+          description: `Bel appartement ${type.toLowerCase()} dans le quartier ${searchData.location}. Proche des transports et commerces.`,
+          features: ['Métro 2-5 min', 'Commerces', 'Transports'],
+          coordinates: [
+            48.8566 + (Math.random() - 0.5) * 0.02,
+            2.3522 + (Math.random() - 0.5) * 0.02
+          ]
+        });
+      }
+
+      return results;
+    }
+
+    // Afficher les résultats
+    function displayResults(results) {
+      const resultsGrid = document.getElementById('results-grid');
+      resultsGrid.innerHTML = '';
+
+      results.forEach((result, index) => {
+        const card = document.createElement('div');
+        card.className = 'result-card';
+        card.style.animationDelay = `${index * 0.1}s`;
+
+        card.innerHTML = `
+          <div class="result-image" style="background-image: url('${result.image}')">
+            <div class="result-badge">${result.type}</div>
+            <div class="result-rating">
+              <span class="rating-stars">★★★★${result.rating >= 4.5 ? '★' : '☆'}</span>
+              <span>${result.rating}</span>
+            </div>
+          </div>
+          <div class="result-content">
+            <div class="result-price">${result.price}€/mois</div>
+            <div class="result-title">${result.type} - ${result.surface}m²</div>
+            <div class="result-location">
+              <i class="fas fa-map-marker-alt"></i>
+              ${result.location}
+            </div>
+            <div class="result-features">
+              <div class="result-feature">
+                <i class="fas fa-bed"></i>
+                <span>${result.rooms} pièce${result.rooms > 1 ? 's' : ''}</span>
+              </div>
+              <div class="result-feature">
+                <i class="fas fa-ruler-combined"></i>
+                <span>${result.surface} m²</span>
+              </div>
+              <div class="result-feature">
+                <i class="fas fa-subway"></i>
+                <span>Métro proche</span>
+              </div>
+            </div>
+            <div class="result-description">${result.description}</div>
+            <div class="result-actions">
+              <button class="btn-contact">Contacter</button>
+              <button class="btn-favorite">
+                <i class="fas fa-heart"></i>
+              </button>
+            </div>
+          </div>
+        `;
+
+        resultsGrid.appendChild(card);
+      });
+    }
+
+    // Initialiser la carte OpenStreetMap
+    function initMap(results, location) {
+      const mapElement = document.getElementById('search-map');
+      mapElement.innerHTML = '';
+
+      // Coordonnées de Paris par défaut
+      const parisCoords = [48.8566, 2.3522];
+
+      // Créer la carte
+      const map = L.map('search-map').setView(parisCoords, 13);
+
+      // Ajouter les tuiles OpenStreetMap
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+      }).addTo(map);
+
+      // Ajouter les marqueurs pour chaque résultat
+      results.forEach(result => {
+        const marker = L.marker(result.coordinates).addTo(map);
+
+        marker.bindPopup(`
+          <div style="text-align: center; min-width: 200px;">
+            <strong>${result.type} - ${result.price}€/mois</strong><br>
+            <small>${result.location}</small><br>
+            <small>${result.surface}m² • ${result.rooms} pièce${result.rooms > 1 ? 's' : ''}</small><br>
+            <div style="margin-top: 8px;">
+              <span style="color: #f59e0b;">★★★★${result.rating >= 4.5 ? '★' : '☆'}</span>
+              <span style="margin-left: 4px;">${result.rating}</span>
+            </div>
+          </div>
+        `);
+      });
+
+      // Ajuster la vue pour inclure tous les marqueurs
+      if (results.length > 0) {
+        const group = new L.featureGroup(results.map(result => L.marker(result.coordinates)));
+        map.fitBounds(group.getBounds().pad(0.1));
+      }
     }
   </script>
 </body>
